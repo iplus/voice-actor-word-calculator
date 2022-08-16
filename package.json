@@ -10,5 +10,8 @@
   "dependencies": {
     "docx4js": "^3.2.20",
     "dropzone": "^6.0.0-beta.2"
+  },
+  "scripts": {
+    "build": "npx parcel build --dist-dir=docs --public-url=/voice-actor-word-calculator --no-source-maps src/index.html"
   }
 }
