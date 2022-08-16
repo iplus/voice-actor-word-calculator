@@ -1,0 +1,14 @@
+{
+  "name": "voice-actor-word-calculator",
+  "version": "1.0.0",
+  "license": "MIT",
+  "devDependencies": {
+    "buffer": "^6.0.3",
+    "events": "^3.3.0",
+    "parcel": "^2.7.0"
+  },
+  "dependencies": {
+    "docx4js": "^3.2.20",
+    "dropzone": "^6.0.0-beta.2"
+  }
+}
