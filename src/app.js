@@ -7,10 +7,13 @@ const myDropzone = new Dropzone("#my-form", {
     autoProcessQueue: false,
     autoQueue: false,
     disablePreviews: true,
+    uploadMultiple: false,
+    dictDefaultMessage: 'Drop "DOCX" file here',
+    parallelUploads: 1
 });
 
 function extractText(node) {
-    if(!node || !node.type) {
+    if (!node || !node.type) {
         return ''
     }
     if (node.type === 'text') {
@@ -28,12 +31,14 @@ function calcWords(text) {
     return result.length
 }
 
+let loading = false
 myDropzone.on("addedfile", (file) => {
+    if (loading) return
+    loading = true
     const result = document.getElementById('result')
     const debug = document.getElementById('debug')
-    result.innerHTML = ''
+    result.innerHTML = `<h1>${file.name}</h1><br><br>`
     debug.innerHTML = ''
-    myDropzone.removeAllFiles()
     try {
         docx4js.load(file).then(docx => {
             const words = {}
@@ -71,10 +76,18 @@ myDropzone.on("addedfile", (file) => {
                 const br = document.createElement('br')
                 result.appendChild(br)
             }
+            if (!Object.keys(words).length) {
+                result.innerHTML = 'No tables found in document'
+            }
         }).catch(e => {
             result.innerHTML = e.stack
+        }).finally(() => {
+            loading = false
+            myDropzone.removeAllFiles(true)
         })
     } catch (e) {
         result.innerHTML = e.stack
+        loading = false
+        myDropzone.removeAllFiles(true)
     }
 })
