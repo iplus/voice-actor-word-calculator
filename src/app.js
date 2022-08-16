@@ -10,6 +10,9 @@ const myDropzone = new Dropzone("#my-form", {
 });
 
 function extractText(node) {
+    if(!node || !node.type) {
+        return ''
+    }
     if (node.type === 'text') {
         return node.data
     }
@@ -39,7 +42,7 @@ myDropzone.on("addedfile", (file) => {
                 },
                 emit() {
                 },
-                ontr(model, ...other) {
+                ontr(model) {
                     const actor = extractText(model.children[1]).trim()
                     const text = extractText(model.children[2])
                     words[actor] = words[actor] || ''
