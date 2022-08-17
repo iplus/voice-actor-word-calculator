@@ -27,7 +27,7 @@ function clearText(text) {
 }
 
 function calcWords(text) {
-    const result = text.split(/[\s,.\n]/).filter(v => v.replace(/[^а-яА-Яa-zA-Z]/g, '').trim() !== '')
+    const result = text.split(/[^-\w\da-яА-ЯёЁ]/).filter(v => v.replace(/[^\dёЁа-яА-Яa-zA-Z]/g, '').trim() !== '')
     return result.length
 }
 
@@ -48,11 +48,18 @@ myDropzone.on("addedfile", (file) => {
                 emit() {
                 },
                 ontr(model) {
+                    if (model.children.length !== 3 || !extractText(model.children[0]).match(/\d+:\d+/)) {
+                        return
+                    }
+                    const time = extractText(model.children[0]).trim()
                     const actor = extractText(model.children[1]).trim()
                     const text = extractText(model.children[2])
                     words[actor] = words[actor] || ''
                     words[actor] += ' ' + clearText(text)
                     const tr = document.createElement('tr')
+                    const actorTime = document.createElement('td')
+                    actorTime.innerHTML = time
+                    tr.appendChild(actorTime)
                     const actorName = document.createElement('td')
                     actorName.innerHTML = actor
                     tr.appendChild(actorName)

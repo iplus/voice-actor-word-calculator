@@ -12,6 +12,6 @@
     "dropzone": "^6.0.0-beta.2"
   },
   "scripts": {
-    "build": "npx parcel build --dist-dir=docs --public-url=/voice-actor-word-calculator --no-source-maps src/index.html"
+    "build": "npx parcel build --dist-dir=docs --public-url=/voice-actor-word-calculator src/index.html"
   }
 }
